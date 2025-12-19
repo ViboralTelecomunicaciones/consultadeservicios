@@ -1,13 +1,14 @@
 
 import styles from './App.module.css'
 import Form from './components/form/Form'
-import useWeather from './Hook/useWeather'
+
+
 
 
 
 function App() {
 
-  const { fetchWeather } = useWeather();
+  
 
   return (
     <>
@@ -16,9 +17,9 @@ function App() {
         <div className={styles.container}>
 
             <Form 
-              fetchWeather={fetchWeather}
+              
             />
-            <p>2</p>
+           
             
 
         </div>

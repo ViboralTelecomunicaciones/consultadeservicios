@@ -1,50 +1,74 @@
-import React, { useState } from "react";
-import type { SearchType } from "../../types";
+
+import React, { useEffect, useState, type FormEvent } from "react";
 import { servicios } from "../../data/servicios";
 import styles from './Form.module.css'
-import Alert from "../../Alert/Alert";
+import { getUsuario } from "../../services/usuario.service";
+// import { getUsuarioCodigo } from "../../services/codigo.service";
+import type { ClienteResponse } from "../../types";
 
 
-
-type FormProps = {
-  fetchWeather: (search: SearchType) => Promise<void>;
-
+interface User {
+    id: number;
+    nombre: string;
+    identificacion: string;
+    servicios: string[];
+    user:string;
 }
 
+export default function Form() {
 
-export default function Form({ fetchWeather }: FormProps) {
-
-    const [search, setSearch] = useState<SearchType>({
-        documento: '',
-        servicios: ''
-    });
-
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement>) => {
-        setSearch({
-            ...search,
-            [e.target.name]: e.target.value
-        })
+   
+    const [user, setUser] = useState<ClienteResponse>();
+     
+      const fetchData = (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        const formData = new FormData(e.currentTarget);
+        const documento = formData.get("documento") as string;
+           
+      
+        getUsuario(documento).then((data:ClienteResponse) => {
+        setUser(data);
+        console.log("Usuario data:", data);
+        console.log("Usuario data:", data?.resultado);
+      }).catch(error => {
+        console.error("Error fetching usuario in useEffect:", error);
+      });
+      
+         
     }
-      const [alert, setAlert] = useState('')
 
-      const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-            e.preventDefault();
-            if(Object.values(search).includes('')){
-              setAlert('Todos los campos son obligatorios');
-              return
-        }
+    // export default function FormCodigo() {
 
-        fetchWeather(search);
-    }
+   
+    // const [userCodigo, setUserCodigo] = useState<ClienteResponse>();
+     
+    //   const fetchData = (e: FormEvent<HTMLFormElement>) => {
+    //     e.preventDefault();
+    //     const formData = new FormData(e.currentTarget);
+    //     const codigo = formData.get("codigo") as string;
+           
+
+    //     getUsuarioCodigo(codigo).then((data:ClienteResponse) => {
+    //     setUserCodigo(data);
+    //     console.log("Usuario data:", data);
+    //     console.log("Usuario data:", data?.resultado);
+    //   }).catch(error => {
+    //     console.error("Error fetching usuario in useEffect:", error);
+    //   });
+      
+         
+    
+ 
   return (
 
    
+<> 
 
-    <form 
+ <form 
       className={styles.form}
-      onSubmit={handleSubmit}
+      onSubmit={fetchData}
       >
-        {alert && <Alert>{alert}</Alert>}
+        
 
       <div className={styles.field}>
         <label htmlFor="documento">Número de Documento:</label>
@@ -53,8 +77,8 @@ export default function Form({ fetchWeather }: FormProps) {
           type= 'text'
           name="documento"
           placeholder="Número de Documento"
-         value= {search.documento}
-         onChange={handleChange}
+        
+       
         />
       </div>
 
@@ -63,9 +87,9 @@ export default function Form({ fetchWeather }: FormProps) {
 
         <select 
         id="servicios"
-        value={search.servicios}
+        
         name="servicios"
-        onChange={handleChange}
+        
         >
           <option value="">-- Seleccione un Servicio --</option>
 
@@ -80,7 +104,23 @@ export default function Form({ fetchWeather }: FormProps) {
         </select>
       </div>
 
-      <button className={styles.submit} type="submit">Consultar</button>
+      <button className={styles.submit}  type="submit">Consultar</button>
     </form>
+
+     <div>   
+      {user && user?.resultado.length > 0 && (
+        <div className={styles.result}>
+          <h2>Resultados para {user.resultado[ 1].nombres}</h2> 
+          {/* <p><strong>Código:</strong> {user.resultado[1].codigo}</p> */}
+          <p><strong>Dirección:</strong> {user.resultado[1].direccion}</p>
+          <p><strong>Documento de Identidad:</strong> {user.resultado[1].documento_identidad}</p>
+          <p><strong>Estado:</strong> {user.resultado[1].estado}</p>
+          <p><strong>Deuda Total:</strong> ${user.resultado[1].deuda_total.toFixed(2)}</p>
+    </div>
+      )} 
+    </div>
+</>
+   
+   
   );
 }
