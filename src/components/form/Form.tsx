@@ -110,12 +110,12 @@ export default function Form() {
      <div>   
       {user && user?.resultado.length > 0 && (
         <div className={styles.result}>
-          <h2>Resultados para {user.resultado[ 1].nombres}</h2> 
-          {/* <p><strong>Código:</strong> {user.resultado[1].codigo}</p> */}
-          <p><strong>Dirección:</strong> {user.resultado[1].direccion}</p>
-          <p><strong>Documento de Identidad:</strong> {user.resultado[1].documento_identidad}</p>
-          <p><strong>Estado:</strong> {user.resultado[1].estado}</p>
-          <p><strong>Deuda Total:</strong> ${user.resultado[1].deuda_total.toFixed(2)}</p>
+          <h2>Resultados para {user.resultado[0].nombres}</h2> 
+          <p><strong>Código:</strong> {user.resultado[0].codigo}</p>
+          <p><strong>Dirección:</strong> {user.resultado[0].direccion}</p>
+          <p><strong>Documento de Identidad:</strong> {user.resultado[0].documento_identidad}</p>
+          <p><strong>Estado:</strong> {user.resultado[0].estado}</p>
+          <p><strong>Deuda Total:</strong> ${user.resultado[0 ].deuda_total.toFixed(2)}</p>
     </div>
       )} 
     </div>

@@ -10,13 +10,13 @@ html{
 
 body {
     font-family: 'outfit', sans-serif;
-    background-image: url('./public/bg_servicio.jpg');
+    background-image: url('./public/Img.jpg');
     background-size: cover;
     background-repeat: no-repeat;
     height: 100vh;
     color: var(--white);
     font-size: 2rem;
-    
+    position: center;
    
 }
 
