@@ -5,6 +5,7 @@ import styles from './Form.module.css'
 import { getUsuario } from "../../services/usuario.service";
 // import { getUsuarioCodigo } from "../../services/codigo.service";
 import type { ClienteResponse } from "../../types";
+import '../../services/service.css';
 
 
 interface User {
@@ -107,7 +108,7 @@ export default function Form() {
       <button className={styles.submit}  type="submit">Consultar</button>
     </form>
 
-     <div>   
+     <div className={styles.container}>   
       {user && user?.resultado.length > 0 && (
         <div className={styles.result}>
           <h2>Resultados para {user.resultado[0].nombres}</h2> 
